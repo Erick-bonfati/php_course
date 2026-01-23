@@ -4,7 +4,9 @@
 //require "funcoes.php"; // Não é recomendado para projetos maiores
 
 // __DIR_ retorna o diretório do arquivo atual, dessa forma o caminho é sempre correto
+require __DIR__ . '/src/Modelo/Filme.php';
 require __DIR__ . "/src/funcoes.php";
+
 
 //include = inclui o arquivo, mas não para a execução se o arquivo não for encontrado
 //require = inclui o arquivo, mas para a execução se o arquivo não for encontrado
@@ -27,10 +29,7 @@ $planoPrime = true;
 
 $incluidoPlano = incluidoNoPlano($ano, $planoPrime);
 
-
-echo "Nome do filme: " . $nomeFilme . "\n";
-echo "Nota do filme: $notaFilme\n";
-echo "Ano de lançamento: $ano\n";
+echo $filme->ano;
 
 
 
@@ -45,8 +44,6 @@ $genero = match ($nomeFilme) {
 echo "O gênero do filme é: $genero\n";
 
 $filme = criaFilme(nome: "Thor: Ragnarok", ano: 2021, nota: 7.8, genero: "super-herói");
-
-echo $filme["ano"];
 
 exibeMensagemLancamento($ano);
 
@@ -72,10 +69,10 @@ array_splice($notas, 2, 1); // remove elementos do array
 array_merge($notas, [9.0, 7.5]); // mescla dois arrays
 sizeof($notas); // retorna o tamanho do array
 
-$posicaoDoisPontos = strpos($filme["nome"], ":"); // procura a posição de uma substring dentro de uma string
+$posicaoDoisPontos = strpos($filme->nome, ":"); // procura a posição de uma substring dentro de uma string
 var_dump($posicaoDoisPontos); // exibe a posição encontrada
 
-var_dump(substr($filme["nome"], 0, $posicaoDoisPontos)); // extrai uma substring a partir de uma posição inicial e um comprimento
+var_dump(substr($filme->nome, 0, $posicaoDoisPontos)); // extrai uma substring a partir de uma posição inicial e um comprimento
 
 //echo json_encode($filme); // converte o array em uma string no formato JSON
 
