@@ -1,17 +1,15 @@
 <?php
 
+require __DIR__ . "/src/Modelo/Genero.php";
+require __DIR__ . "/src/Modelo/Titulo.php";
+require __DIR__ . "/src/Modelo/Serie.php";
 require __DIR__ . "/src/Modelo/Filme.php";
+require __DIR__ . "/src/Calculos/CalculadoraDeMaratona.php";
+
 
 echo "Bem-vindo(a) ao screen match!\n";
 
-$filme = new Filme("");
-
-/*
-$filme->nome = "Caẽs de caça";
-$filme->ano = 2020;
-$filme->nota = 8.5;
-$filme->genero = "Ação"; 
-*/
+$filme = new Filme("Cães de caça", 2020, Genero::Acao, 144);
 
 $filme->avalia(10);
 $filme->avalia(2);
@@ -22,10 +20,25 @@ var_dump($filme);
 
 echo $filme->media() . "\n";
 
-$filme->defineNovoFilme(2043, "Thor", "Super-heroi"); // Utilizando o setter para criar um novo filme
+echo $filme->ano . "\n";
 
-$dadoFilme = $filme->dadosFilme();
+echo "---------------------\n";
 
-echo $dadoFilme["ano"] . " " . $dadoFilme["genero"] . " " . $dadoFilme["nome"];
+echo "Series:\n\n";
 
-print_r($filme->dadosFilme());
+$serie = new Serie("Breaking Bad", 2008, Genero::Drama, 5, 10, 10);
+
+echo $serie->ano . "\n"; // return: 2008
+
+$serie->avalia(9);
+$serie->avalia(8.5);
+
+echo $serie->media() . "\n"; // return: 8.75
+
+
+$calculadora = new CalculadoraDeMaratona();
+$calculadora->inclui($filme);
+$calculadora->inclui($serie);
+$duracao = $calculadora->duracao();
+
+echo "Duração total da maratona: " . $duracao . " minutos\n";
