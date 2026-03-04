@@ -4,7 +4,8 @@
    servindo como base para outras classes. Ela pode conter métodos abstratos
    que devem ser implementados pelas subclasses.  */
 
-abstract class Titulo
+// Ao implementar a interface Avaliavel, a classe Titulo é obrigada a implementar os métodos avalia() e media(), garantindo que todas as subclasses de Titulo tenham esses comportamentos, permitindo que sejam tratadas de forma intercambiável quando se trata de avaliação e cálculo de média.
+abstract class Titulo implements Avaliavel
 {
     private array $notas;
 

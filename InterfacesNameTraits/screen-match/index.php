@@ -1,11 +1,13 @@
 <?php
 
 require __DIR__ . "/src/Modelo/Genero.php";
+require __DIR__ . "/src/Modelo/Avaliavel.php";
 require __DIR__ . "/src/Modelo/Titulo.php";
 require __DIR__ . "/src/Modelo/Episodio.php";
 require __DIR__ . "/src/Modelo/Serie.php";
 require __DIR__ . "/src/Modelo/Filme.php";
 require __DIR__ . "/src/Calculos/CalculadoraDeMaratona.php";
+require __DIR__ . "/src/Calculos/ConversorNotaEstrela.php";
 
 echo "Bem-vindo(a) ao ScreenMatch\n";
 
@@ -18,7 +20,7 @@ $filme = new Filme(
 
 $filme->avalia(10);
 $filme->avalia(10);
-$filme->avalia(5);
+$filme->avalia(2);
 $filme->avalia(5);
 
 var_dump($filme);
@@ -32,7 +34,7 @@ $episodio = new Episodio($serie, 'Pilot', 1);
 
 echo $serie->anoLancamento . "\n";
 
-$serie->avalia(8);
+$serie->avalia(9);
 
 echo $serie->media() . "\n";
 
@@ -41,4 +43,10 @@ $calculadora->inclui($filme);
 $calculadora->inclui($serie);
 $duracao = $calculadora->duracao();
 
-echo "Para essa maratona, você precisa de $duracao minutos";
+echo "Para essa maratona, você precisa de $duracao minutos disponíveis.\n";
+
+$conversor = new ConversorNotaEstrela();
+
+echo $conversor->converte($serie) . "\n"; // Passamos a série como argumento, e o método converte irá chamar o método media() da série para obter a nota média e realizar a conversão para o sistema de estrelas.
+
+echo $conversor->converte($filme) . "\n";

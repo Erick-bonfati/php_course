@@ -2,12 +2,12 @@
 
 class ConversorNotaEstrela
 {
-    public function converte(Titulo $titulo): float
+    public function converte(Avaliavel $avaliavel): float
     {
-        $nota = $titulo->media();
+        $nota = $avaliavel->media();
 
         //Realiza a conversão da nota para o sistema de estrelas (1 a 5)
         
-        return $nota;
+        return round($nota) / 2; // Supondo que a nota máxima seja 10, dividimos por 2 para converter para o sistema de estrelas
     }
 }
