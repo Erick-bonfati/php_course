@@ -1,5 +1,8 @@
 <?php
 
+namespace ScreenMatch\Modelo; // Definindo o namespace para organizar o código e evitar conflitos de nomes
+
+
 /* Classe abstrata: uma classe que não pode ser instanciada diretamente,
    servindo como base para outras classes. Ela pode conter métodos abstratos
    que devem ser implementados pelas subclasses.  */

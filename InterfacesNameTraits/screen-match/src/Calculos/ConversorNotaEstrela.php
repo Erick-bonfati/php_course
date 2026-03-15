@@ -1,8 +1,12 @@
 <?php
 
+namespace ScreenMatch\Calculos;
+
+use ScreenMatch\Modelo\Avaliavel as AvaliavelTrait; // Importando a interface Avaliavel com namespace e alterando o nome
+
 class ConversorNotaEstrela
 {
-    public function converte(Avaliavel $avaliavel): float
+    public function converte( AvaliavelTrait $avaliavel): float
     {
         $nota = $avaliavel->media();
 
