@@ -15,7 +15,7 @@ class Serie extends Titulo
         parent::__construct($nome, $anoLancamento, $genero);
     }
 
-    #[Override] // anotação de Override para indicar que estamos sobrescrevendo um método da classe pai
+    #[\Override] // anotação de Override para indicar que estamos sobrescrevendo um método da classe pai
     public function duracaoEmMinutos(): int
     {
         return $this->temporadas * $this->episodiosPorTemporada * $this->minutosPorEpisodio;
