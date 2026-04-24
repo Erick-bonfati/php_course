@@ -25,5 +25,23 @@
         "phpunit/phpunit": "^13.1",
         "squizlabs/php_codesniffer": "^4.0",
         "phan/phan": "^6.0"
+    },
+    "scripts": {
+        "testes": "phpunit tests\\TestBuscadorDeCursos.php",
+        "cs": "phpcs --standard=PSR12 src",
+        "phan": "phan --allow-polyfill-parser src",
+        "check": [
+            "@testes",
+            "@cs",
+            "@phan"
+        ],
+        "clear-directory": "rmdir /s /q build",
+        "post-update-cmd": [
+            "@testes"
+        ]
+    },
+    "scripts-descriptions": {
+        "check": "Executa as validações do código",
+        "clear-directory": "Limpa o diretório de build"
     }
 }
