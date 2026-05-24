@@ -1,3 +1,26 @@
+<?php 
+ 
+require_once 'src/connect-bd.php';
+require_once 'src/Model/Product.php';
+require_once 'src/Repository/ProductRepository.php';
+
+if(isset($_POST['cadastrar'])) {
+    $product = new Product(
+    null,
+    $_POST['nome'],
+    $_POST['tipo'],
+    $_POST['descricao'],
+    $_POST['preco']
+    );
+
+    $productRepository = new ProductRepository($pdo);
+    $productRepository->salvarProduto($product);
+
+    header('Location: admin.php');
+}
+
+?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -24,7 +47,7 @@
         <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
     </section>
     <section class="container-form">
-        <form action="#">
+        <form action="#" method="post">
 
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" required>
@@ -47,7 +70,7 @@
             <label for="imagem">Envie uma imagem do produto</label>
             <input type="file" name="imagem" accept="image/*" id="imagem" placeholder="Envie uma imagem">
 
-            <input type="submit" name="cadastro" class="botao-cadastrar" value="Cadastrar produto"/>
+            <input name="cadastrar" type="submit" name="cadastro" class="botao-cadastrar" value="Cadastrar produto"/>
         </form>
     
     </section>
