@@ -54,10 +54,10 @@ $listProducts = $productRepository->listProducts();
         <td><?= $product->getTipo(); ?></td>
         <td><?= $product->getDescricao(); ?></td>
         <td><?= "R$ " . number_format($product->getPreco(), 2, ',', '.') ?></td>
-        <td><a class="botao-editar" href="editar-produto.html">Editar</a></td>
+        <td><a class="botao-editar" href="editar-produto.php?id=<?= $product->getId() ?>">Editar</a></td>
         <td>
           <form action="excluir-produto.php" method="post">
-            <input type="hidden" name="id" value="<?= $product->getId(); ?>">
+            <input type="hidden" name="id" value="<?= $product->getId() ?>">
             <input type="submit" class="botao-excluir" value="Excluir">
           </form>
         </td>
@@ -67,7 +67,7 @@ $listProducts = $productRepository->listProducts();
       </tbody>
     </table>
   <a class="botao-cadastrar" href="cadastrar-produto.php">Cadastrar produto</a>
-  <form action="#" method="post">
+  <form action="gerador-pdf.php" method="post">
     <input type="submit" class="botao-cadastrar" value="Baixar Relatório"/>
   </form>
   </section>

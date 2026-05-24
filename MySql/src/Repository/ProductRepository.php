@@ -14,17 +14,7 @@ class ProductRepository {
         $sql = "SELECT * FROM produtos ORDER BY preco";
         $produtos = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
-        $dadosProdutos = array_map(function($produto) {
-            return new Product(
-                $produto['id'],
-                $produto['nome'],
-                $produto['tipo'],
-                $produto['descricao'],
-                $produto['preco'],
-                $produto['imagem']
-            );
-        }, $produtos);
-
+        $dadosProdutos = array_map(array($this, 'formarObjeto'), $produtos);
         return $dadosProdutos;
     }
 
@@ -32,17 +22,7 @@ class ProductRepository {
       $sql1 = "SELECT * FROM produtos WHERE tipo = 'Café' ORDER BY preco";
       $produtosCafe = $this->pdo->query($sql1)->fetchAll(PDO::FETCH_ASSOC);
 
-      $dadosCafe = array_map(function($cafe) {
-          return new Product(
-              $cafe['id'],
-              $cafe['tipo'],
-              $cafe['nome'],
-              $cafe['descricao'],
-              $cafe['preco'],
-              $cafe['imagem']
-          );
-      }, $produtosCafe);
-
+      $dadosCafe = array_map(array($this, 'formarObjeto'), $produtosCafe);
       return $dadosCafe;
     }
 
@@ -50,16 +30,7 @@ class ProductRepository {
       $sql2 = "SELECT * FROM produtos WHERE tipo = 'Almoço' ORDER BY preco";
       $produtosAlmoco = $this->pdo->query($sql2)->fetchAll(PDO::FETCH_ASSOC);
 
-      $dadosAlmoco = array_map(function($almoco) {
-          return new Product(
-              $almoco['id'],
-              $almoco['nome'],
-              $almoco['tipo'],
-              $almoco['descricao'],
-              $almoco['preco'],
-              $almoco['imagem']
-          );
-      }, $produtosAlmoco);
+      $dadosAlmoco = array_map(array($this, 'formarObjeto'), $produtosAlmoco);
       return $dadosAlmoco;
     }
 
@@ -77,7 +48,51 @@ class ProductRepository {
       $statement->bindValue(2, $product->getTipo());
       $statement->bindValue(3, $product->getDescricao());
       $statement->bindValue(4, $product->getPreco());
-      $statement->bindValue(5, $product->getImagem());
+      $statement->bindValue(5, $product->getImagemFilename());
+      return $statement->execute();
+    }
+
+    public function formarObjeto($dados) {
+      return new Product(
+        $dados['id'],
+        $dados['nome'],
+        $dados['tipo'],
+        $dados['descricao'],
+        $dados['preco'],
+        $dados['imagem']
+      );
+    }
+
+    public function findProductById(int $id) {
+      $sql = "SELECT * FROM produtos WHERE id = ?";
+      $statement = $this->pdo->prepare($sql);
+      $statement->bindParam(1, $id);
+      $statement->execute();
+      $dados = $statement->fetch(PDO::FETCH_ASSOC);
+
+      return $this->formarObjeto($dados);
+    }
+
+    public function updateProduct(Product $product) {
+      $sql = "UPDATE produtos SET nome = ?, tipo = ?, descricao = ?, preco = ? WHERE id = ?";
+      $statement = $this->pdo->prepare($sql);
+      $statement->bindValue(1, $product->getNome());
+      $statement->bindValue(2, $product->getTipo());
+      $statement->bindValue(3, $product->getDescricao());
+      $statement->bindValue(4, $product->getPreco());
+      $statement->bindValue(5, $product->getId());
+      $statement->execute();
+
+      if($product->getImagemFilename() !== "img/logo-serenatto.png") {
+        $this->atualizarFoto($product);
+      }
+    }
+
+    public function atualizarFoto(Product $product) {
+      $sql = "UPDATE produtos SET imagem = ? WHERE id = ?";
+      $statement = $this->pdo->prepare($sql);
+      $statement->bindValue(1, $product->getImagemFilename());
+      $statement->bindValue(2, $product->getId());
       return $statement->execute();
     }
 }

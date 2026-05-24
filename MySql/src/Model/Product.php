@@ -37,7 +37,15 @@ class Product {
         return "img/" . $this->imagem;
     }
 
+    public function getImagemFilename() {
+        return $this->imagem;
+    }
+
     public function getTipo() {
         return $this->tipo;
+    }
+
+    public function setImagem(string $imagem) {
+        $this->imagem = $imagem;
     }
 }
