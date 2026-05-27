@@ -2,28 +2,41 @@
 
 declare(strict_types=1);
 
-$path = $_SERVER['PATH_INFO'] ?? '/';
-$method = $_SERVER['REQUEST_METHOD'];
+require_once __DIR__ . '/../vendor/autoload.php';
 
-if ($path === '/') {
-    require_once __DIR__ . '/../listagem-videos.php';
-} elseif ($path === '/enviar-video') {
-    if ($method === 'GET') {
-        require_once __DIR__ . '/../enviar-video.php';
-    } elseif ($method === 'POST') {
-        require_once __DIR__ . '/../novo-video.php';
+use Alura\Mvc\Controller\VideoListController;
+use Alura\Mvc\Controller\VideoRemoveController;
+use Alura\Mvc\Controller\VideoUpdateController;
+use Alura\Mvc\Controller\VideoStoreController;
+use Alura\Mvc\Controller\VideoGetForm;
+use Alura\Mvc\Repository\VideoRepository;
+
+$pdo = new PDO('mysql:host=localhost;dbname=aluratube', 'root', 'admin');
+
+$videoRepository = new VideoRepository($pdo);
+
+if (!array_key_exists('PATH_INFO', $_SERVER) || $_SERVER['PATH_INFO'] === '/') {
+    $controller = new VideoListController($videoRepository);
+    $controller->processaRequisicao();
+} elseif ($_SERVER['PATH_INFO'] === '/novo-video') {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $controllerGetForm = new VideoGetForm($videoRepository);
+        $controllerGetForm->processaRequisicao();
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $controllerStore = new VideoStoreController($videoRepository);
+        $controllerStore->processaRequisicao();
     }
-} elseif ($path === '/editar-video' ) {
-     if ($method === 'GET') {
-        require_once __DIR__ . '/../editar-video.php';
-    } elseif ($method === 'POST') {
-        require_once __DIR__ . '/../editar-video.php';
+} elseif ($_SERVER['PATH_INFO'] === '/editar-video') {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $controllerGetForm = new VideoGetForm($videoRepository);
+        $controllerGetForm->processaRequisicao();
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $controllerUpdate = new VideoUpdateController($videoRepository);
+        $controllerUpdate->processaRequisicao();
     }
-} elseif ($path === '/remover-video') {
-    require_once __DIR__ . '/../remover-video.php';
-} elseif ($path === '/login') {
-    require_once __DIR__ . '/../login.php';
+} elseif ($_SERVER['PATH_INFO'] === '/remover-video') {
+    $controllerRemove = new VideoRemoveController($videoRepository);
+    $controllerRemove->processaRequisicao();
 } else {
     http_response_code(404);
-    echo 'Página não encontrada';
 }

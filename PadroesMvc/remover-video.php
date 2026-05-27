@@ -1,11 +1,13 @@
 <?php
 
-require_once('../database/connect.php');
+use Alura\Mvc\Repository\VideoRepository;
+
+$pdo = new PDO('mysql:host=localhost;dbname=aluratube', 'root', 'admin');
 
 $id = $_GET['id'];
-$sql = "DELETE FROM video WHERE id = ?";
-$statement = $pdo->prepare($sql);
-$statement->bindValue(1, $id);
-$statement->execute();
+
+$repository = new VideoRepository($pdo);
+$repository->remove($id);
+
 
 header('Location: /');

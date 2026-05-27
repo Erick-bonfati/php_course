@@ -1,14 +1,19 @@
 <?php
 
+namespace Alura\Mvc\Controller;
+
 use Alura\Mvc\Repository\VideoRepository;
+use PDO;
 
-$pdo = new PDO('mysql:host=localhost;dbname=aluratube', 'root', 'admin');
+class VideoListController {
 
-$repository = new VideoRepository($pdo);
-$videoList = $repository->all();
+  public function __construct(private VideoRepository $videoRepository) {
+  }
+    
+  public function processaRequisicao(): void {
+    $videoList = $this->videoRepository->all();
 
-?>
-<?php require_once 'inicio-html.php'; ?>
+    require_once '../inicio-html.php'; ?>
     <ul class="videos__container">
         <?php foreach ($videoList as $video): ?>
         <li class="videos__item">
@@ -26,4 +31,6 @@ $videoList = $repository->all();
         </li>
         <?php endforeach; ?>
     </ul>
-<?php require_once 'fim-html.php'; ?>
+    <?php require_once '../fim-html.php';
+  }
+}
