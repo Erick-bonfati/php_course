@@ -5,7 +5,7 @@ namespace Alura\Mvc\Controller;
 use Alura\Mvc\Repository\VideoRepository;
 use Alura\Mvc\Entity\Video;
 
-class VideoStoreController {
+class VideoStoreController implements Controller{
 
   public function __construct(private VideoRepository $videoRepository) {}
     
