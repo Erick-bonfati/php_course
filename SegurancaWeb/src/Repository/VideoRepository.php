@@ -42,13 +42,9 @@ class VideoRepository
     {
         $updateImageSql = '';
         if($video->getFilePath() !== null) {
-            $updateImageSql = 'image_path = :image_path';
+            $updateImageSql = ', image_path = :image_path'; // a virgula aqui serve para nao quebrar a sintaxe no SET do sql, pois se nao enviar imagem ficaria SET url, title, WHERE id = :id
         }
-        $sql = "UPDATE videos SET 
-                                url = :url, 
-                                title = :title, 
-                                $updateImageSql
-                              WHERE id = :id;";
+        $sql = "UPDATE videos SET url = :url, title = :title $updateImageSql WHERE id = :id;";
         $statement = $this->pdo->prepare($sql);
 
         $statement->bindValue(':url', $video->url);

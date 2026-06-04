@@ -6,6 +6,9 @@ require_once __DIR__ . '/inicio-html.php';
     <form class="container__formulario"
         enctype="multipart/form-data"
         method="post">
+        <?php if ($video !== null): ?>
+            <input type="hidden" name="id" value="<?= $video->id; ?>" />
+        <?php endif; ?>
         <h2 class="formulario__titulo">Envie um vídeo!</h2>
         <div class="formulario__campo">
             <label class="campo__etiqueta" for="url">Link embed</label>
