@@ -28,3 +28,6 @@ Também podemos criar um componente anonimo que não depende de uma classe e só
 ### php artisan make:component layout –view - cria component somente com a view
 
 Segurança: Ataques XSS - são ataques que são realizadas injeções de códigos maliosos por meio de algum formulário, input...
+
+Cross-Site Request Forgery (CSRF) - é um ataque que consiste redirecionar o ataque de um formulário para dentro do response do nosso formulário, ou seja, um formulario de outro site enviando dados para dentro do nosso formulario, onde não sabemos nada que estão tentando enviar para dentro do nosso código.
+
