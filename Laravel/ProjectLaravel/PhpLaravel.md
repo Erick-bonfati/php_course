@@ -31,3 +31,11 @@ Segurança: Ataques XSS - são ataques que são realizadas injeções de código
 
 Cross-Site Request Forgery (CSRF) - é um ataque que consiste redirecionar o ataque de um formulário para dentro do response do nosso formulário, ou seja, um formulario de outro site enviando dados para dentro do nosso formulario, onde não sabemos nada que estão tentando enviar para dentro do nosso código.
 
+Formulários de delete por padrão devem ser enviados como POST, pois a web não suporta rotas delete, então para quebrar isso, podemos definir internamente dentro do formulário @method('DELETE') isso não vai transformar a rota em delete, somente dizer qual é o tipo dela, para depois a gente recuperar no arquivo de rotas.
+
+//return $request->query('id'); // recupera o queryparam enviado na url (MAIS RECOMENDADO QUE O INPUT)
+//return $request->input('id'); // Recupera o valor do parâmetro da URL ou um input que veio de um formulário
+//return $request->url(); // Retorna url completa da requisição
+//return $request->method(); // retorna o method que usamos pra acessar o recurso
+//return redirect('google.com'); // redireciona para qualquer rota
+//$series = Serie::all(); busca todos valores da collection
