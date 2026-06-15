@@ -38,4 +38,4 @@ Formulários de delete por padrão devem ser enviados como POST, pois a web não
 //return $request->url(); // Retorna url completa da requisição
 //return $request->method(); // retorna o method que usamos pra acessar o recurso
 //return redirect('google.com'); // redireciona para qualquer rota
-//$series = Serie::all(); busca todos valores da collection
+//$series = Series::all(); busca todos valores da collection
