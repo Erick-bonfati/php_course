@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Episode;
+use App\Repositories\EloquentSeriesRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Series;
-use App\Models\Season;
+use App\Repositories\SeriesRepository;
 
 class SeriesController extends Controller
 {
+    public function __construct(private SeriesRepository $repository)
+    {  
+    }
+    
     public function index(Request $request)
     {
         $series = Series::all(); // busca query onde é buscado pelo nome em ordem crescente, passando o get pra recuperar o valor encontrado
@@ -27,30 +30,7 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
-        $series = Series::create($request->all());
-        $temporadas = [];
-        for ($seasons = 1; $seasons <= $request->seasonsQty; $seasons++) {
-            $temporadas[] = [
-                'series_id' => $series->id,
-                'number' => $seasons
-            ];
-        }
-
-        Season::insert($temporadas);
-
-        $episodios = [];
-        foreach($series->seasons as $season)
-        {
-            for ($episodes = 1; $episodes <= $request->episodesPerSeason; $episodes++) {
-                $episodios[] = [
-                    'season_id' => $season->id,
-                    'number' => $episodes
-                ];
-            }
-        }
-
-        Episode::insert($episodios);
-        
+       $series = $this->repository->add($request);
 
         return to_route('series.index')->with('mensagem.sucesso', "Série '{$series->name}' criada com sucesso");
     }

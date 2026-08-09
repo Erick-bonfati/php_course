@@ -12,15 +12,21 @@
   <div class="container">
     <h1>{{$title}}</h1>
 
-      @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-      @endif
+    @isset($mensagemSucesso) 
+      <div class="alert alert-success">
+        {{ $mensagemSucesso }}
+      </div>
+    @endisset
+
+    @if ($errors->any())
+      <div class="alert alert-danger">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+    @endif
 
     {{ $slot }} <!-- O slot é onde o conteúdo da view que chama esse layout vai ser inserido -->
   </div>

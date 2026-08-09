@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Providers\SeriesRepositoryProvider;
 
 return [
 
@@ -71,6 +72,8 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+
+        SeriesRepositoryProvider::class,
     ],
 
     /*

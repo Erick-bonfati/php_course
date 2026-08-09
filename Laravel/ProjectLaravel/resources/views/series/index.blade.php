@@ -1,12 +1,6 @@
-<x-layout title="Séries"> <!-- O título da página é passado como parâmetro para o layout, e pode ser acessado dentro do layout através da variável $title -->
+<x-layout title="Séries" :mensagem-sucesso="$mensagemSucesso"> <!-- O título da página é passado como parâmetro para o layout, e pode ser acessado dentro do layout através da variável $title -->
 
   <a href="{{route('series.create')}}" class="btn btn-dark mb-2">Adicionar</a>
-
-  @isset($mensagemSucesso) <!-- Verifica se a variável $mensagemSucesso está definida -->
-    <div class="alert alert-success">
-      {{ $mensagemSucesso }} <!-- Exibe o valor da variável $mensagemSucesso -->
-    </div>
-  @endisset
 
   <ul class="list-group">
     @foreach($series as $serie)
