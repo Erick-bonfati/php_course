@@ -8,11 +8,21 @@ use App\Models\Series;
 use App\Repositories\SeriesRepository;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\Autenticador;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class SeriesController extends Controller
+class SeriesController extends Controller implements HasMiddleware
 {
     public function __construct(private SeriesRepository $repository)
     {  
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            (new Middleware(Autenticador::class))->except(['index']),
+        ];
     }
     
     public function index(Request $request)
