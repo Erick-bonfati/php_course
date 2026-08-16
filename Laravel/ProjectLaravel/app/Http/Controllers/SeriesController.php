@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
+use App\Mail\SeriesCreated;
+use DateTime;
 use Illuminate\Http\Request;
 use App\Models\Series;
 use App\Repositories\SeriesRepository;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Middleware\Autenticador;
+use App\Models\User;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -43,7 +45,22 @@ class SeriesController extends Controller implements HasMiddleware
     {
        $series = $this->repository->add($request);
 
-        return to_route('series.index')->with('mensagem.sucesso', "Série '{$series->name}' criada com sucesso");
+       $userList = User::all();
+
+       foreach ($userList as $index => $user) {
+            $email = new SeriesCreated(
+                    $series->name,
+                    $series->id,
+                    $request->seasonsQty,
+                    $request->episodesPerSeason
+            );
+            
+            $when = now()->addSeconds($index * 5);
+
+            Mail::to($user)->later($when, $email);
+        }
+
+       return to_route('series.index')->with('mensagem.sucesso', "Série '{$series->name}' criada com sucesso");
     }
 
     public function edit(Series $series)

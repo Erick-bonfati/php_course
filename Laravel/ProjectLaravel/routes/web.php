@@ -9,8 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SeriesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Middleware\Autenticador;
-
-
+use App\Mail\SeriesCreated;
 
 Route::resource('/series', SeriesController::class)
     ->except('show');
@@ -31,6 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/series/{series}/seasons', [SeasonsController::class, 'index'])->name('seasons.index')->middleware(Autenticador::class);
     Route::get('/seasons/{season}/episodes', [EpisodesController::class, 'index'])->name('episodes.index');
     Route::post('/seasons/{season}/episodes', [EpisodesController::class, 'update'])->name('episodes.update');
+    Route::get('/email', function () {
+        return new SeriesCreated('Série Teste', 8, 5, 1);
+    });
 });
 
 require __DIR__.'/auth.php';
